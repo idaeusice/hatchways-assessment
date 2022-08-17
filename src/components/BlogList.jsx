@@ -8,7 +8,7 @@ const PAGE_SIZES = [15, 25, 50, 100];
 
 function BlogList() {
   const [currentPaginationData, setCurrentPaginationData ] = useState(blogs.posts.slice(0, 15));
-  const [rowsPerPage, setRowsPerPage ] = useState(PAGE_SIZES[1]); //show 25 rows default
+  const [rowsPerPage, setRowsPerPage ] = useState(PAGE_SIZES[0]); //show 15 rows default
   const [currentPage, setCurrentPage ] = useState(1); //page 1 default
 
   //useEffect hook waits on changes to the number of rows shown per page.
