@@ -1,8 +1,6 @@
 import "../css/pagination.scss";
-
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import usePagination, { DOTS } from "../hooks/usePagination";
-
 import PropTypes from "prop-types";
 import React from "react";
 import { nanoid } from "nanoid";
@@ -14,7 +12,9 @@ function Pagination({
   currentPage,
   pageSize,
   pageSizeOptions,
+  setCurrentPage
 }) {
+
   const paginationRange = usePagination({
     currentPage,
     totalCount,
@@ -22,11 +22,13 @@ function Pagination({
   });
 
   const onNext = () => {
+    if(currentPage <= (Math.ceil(totalCount / pageSize) - 1))
     onPageChange(currentPage + 1);
   };
 
   const onPrevious = () => {
-    onPageChange(currentPage - 1);
+    if(currentPage != 1)
+      onPageChange(currentPage - 1);  
   };
 
   return (
@@ -63,7 +65,7 @@ function Pagination({
           <li
             key={key}
             className="paginationItem"
-            aria-current="false" // change this line to highlight a current page.
+            aria-current={pageNumber == currentPage ? "page" : "false"} // change this line to highlight a current page.
           >
             <button
               type="button"
@@ -77,7 +79,7 @@ function Pagination({
         );
       })}
 
-      <li className="paginationItem">
+      <li className="paginationItem"> 
         <button
           type="button"
           className="arrowButton right"
@@ -86,7 +88,7 @@ function Pagination({
           onClick={onNext}
           disabled={false} // change this line to disable a button.
         >
-          <ChevronRightIcon />
+          <ChevronRightIcon /> 
         </button>
       </li>
 
@@ -95,9 +97,7 @@ function Pagination({
         // Do not remove the aria-label below, it is used for Hatchways automation.
         aria-label="Select page size"
         value={pageSize}
-        onChange={(e) => {
-          onPageSizeOptionChange(e.target.value);
-        }}
+        onChange={onPageSizeOptionChange}
       >
         {pageSizeOptions.map((size) => (
           <option key={size} defaultValue={pageSize === size} value={size}>
